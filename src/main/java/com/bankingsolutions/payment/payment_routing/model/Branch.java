@@ -1,49 +1,37 @@
 package com.bankingsolutions.payment.payment_routing.model;
 
-/**
- * POJO class
- * Bank branch in the system.
- * Each branch has a name and a cost associated with transferring funds from that branch.
- */
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "Branch")
 public class Branch {
-    
-    // Name of the branch
-    private String name;
-    
-    // Cost of transferring funds from this branch.
-    private int transferCost;
+    @Id
+    private String id;
+    private int processingCost;
 
-    // Constructor to initialize values
-    public Branch(String name, int transferCost) {
-        this.name = name;
-        this.transferCost = transferCost;
+    public Branch() {
     }
 
-    
-// Getters and Setters for the fields    
-    public String getName() {
-        return name;
+    public Branch(String id, int processingCost) {
+        this.id = id;
+        this.processingCost = processingCost;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getId() {
+        return id;
     }
 
-    public int getTransferCost() {
-        return transferCost;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public void setTransferCost(int transferCost) {
-        this.transferCost = transferCost;
+    public int getProcessingCost() {
+        return processingCost;
     }
 
-//Returns a string representation of the Branch object.
- 
-    @Override
-    public String toString() {
-        return "Branch{" +
-                "name='" + name + '\'' +
-                ", transferCost=" + transferCost +
-                '}';
+    public void setProcessingCost(int processingCost) {
+        this.processingCost = processingCost;
     }
 }

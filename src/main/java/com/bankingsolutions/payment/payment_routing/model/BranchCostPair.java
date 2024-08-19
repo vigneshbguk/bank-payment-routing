@@ -5,7 +5,7 @@ public class BranchCostPair {
     private final int cost;
 
     public BranchCostPair(Branch branch, int cost) {
-    	this.branch = branch;
+        this.branch = branch;
         this.cost = cost;
     }
 
