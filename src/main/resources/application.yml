@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/your_database
+    url: jdbc:postgresql://localhost:5432/Global_Banking
     username: postgres
     password: Vigneshg@29
     driver-class-name: org.postgresql.Driver

@@ -1,7 +1,9 @@
 package com.bankingsolutions.payment.payment_routing.repository;
 
 import java.util.Properties;
+
 import javax.sql.DataSource;
+
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
