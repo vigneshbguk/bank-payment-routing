@@ -4,8 +4,6 @@ import com.bankingsolutions.payment.payment_routing.dao.BranchDAO;
 import com.bankingsolutions.payment.payment_routing.dao.TransferCostDAO;
 import com.bankingsolutions.payment.payment_routing.model.Branch;
 import com.bankingsolutions.payment.payment_routing.model.BranchCostPair;
-import org.hibernate.SessionFactory;
-import org.hibernate.Session;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -19,12 +17,6 @@ import static org.mockito.Mockito.*;
 public class PaymentServiceImplTest {
 
     @Mock
-    private SessionFactory sessionFactory;
-
-    @Mock
-    private Session session;
-
-    @Mock
     private BranchDAO branchDAO;
 
     @Mock
@@ -35,11 +27,10 @@ public class PaymentServiceImplTest {
     private Map<String, Branch> branches;
     private Map<String, List<BranchCostPair>> graph;
 
-    @BeforeEach
+    @SuppressWarnings("deprecation")
+	@BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-
-        when(sessionFactory.openSession()).thenReturn(session);
 
         branches = new HashMap<>();
         branches.put("A", new Branch("A", 5));
@@ -56,7 +47,7 @@ public class PaymentServiceImplTest {
         when(branchDAO.getAllBranches()).thenReturn(branches);
         when(transferCostDAO.getAllTransferCosts(branches)).thenReturn(graph);
 
-        paymentService = new PaymentServiceImpl(sessionFactory);
+        paymentService = new PaymentServiceImpl(branchDAO, transferCostDAO);
     }
 
     @Test

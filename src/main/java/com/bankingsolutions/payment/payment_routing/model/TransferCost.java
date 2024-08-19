@@ -1,51 +1,45 @@
 package com.bankingsolutions.payment.payment_routing.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "TransferCost")
 public class TransferCost {
+
     @Id
-    private String id;
-    @ManyToOne
-    private Branch fromBranch;
-    @ManyToOne
-    private Branch toBranch;
+    private Long id;
+
+    @Column(name = "from_branch")
+    private Branch sourceBranch;
+
+    @Column(name = "to_branch")
+    private Branch destinationBranch;
+
+    @Column(name = "cost")
     private int cost;
+    
+    
+    
 
-    public TransferCost() {
+    public TransferCost(Branch sourceBranch, Branch destinationBranch, int cost) {
+		super();
+		this.sourceBranch = sourceBranch;
+		this.destinationBranch = destinationBranch;
+		this.cost = cost;
+	}
+
+	// Getters and Setters
+    public Branch getSourceBranch() {
+        return sourceBranch;
     }
 
-    public TransferCost(Branch fromBranch, Branch toBranch, int cost) {
-        this.fromBranch = fromBranch;
-        this.toBranch = toBranch;
-        this.cost = cost;
-    }
-
-    public Branch getFromBranch() {
-        return fromBranch;
-    }
-
-    public void setFromBranch(Branch fromBranch) {
-        this.fromBranch = fromBranch;
-    }
-
-    public Branch getToBranch() {
-        return toBranch;
-    }
-
-    public void setToBranch(Branch toBranch) {
-        this.toBranch = toBranch;
+    public Branch getDestinationBranch() {
+        return destinationBranch;
     }
 
     public int getCost() {
         return cost;
-    }
-
-    public void setCost(int cost) {
-        this.cost = cost;
     }
 }

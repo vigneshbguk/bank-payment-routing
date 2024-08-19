@@ -1,17 +1,21 @@
 package com.bankingsolutions.payment.payment_routing.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "Branch")
+@Table(name = "branch")
 public class Branch {
+    
+	
     @Id
     private String id;
-    private int processingCost;
 
-    public Branch() {
+    @Column(name = "processing_cost")
+    private int processingCost;
+	    public Branch() {
     }
 
     public Branch(String id, int processingCost) {

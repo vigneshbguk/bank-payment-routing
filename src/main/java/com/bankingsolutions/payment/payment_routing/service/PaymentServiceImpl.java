@@ -5,31 +5,37 @@ import com.bankingsolutions.payment.payment_routing.dao.TransferCostDAO;
 import com.bankingsolutions.payment.payment_routing.model.Branch;
 import com.bankingsolutions.payment.payment_routing.model.BranchCostPair;
 import com.bankingsolutions.payment.payment_routing.model.PaymentRoute;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+
+//import jakarta.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+//import javax.transaction.Transactional;
 import java.util.*;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 @Service
+@Transactional
 public class PaymentServiceImpl implements PaymentService {
 
-    private final Map<String, Branch> branches;
-    private final Map<String, List<BranchCostPair>> graph;
+    private final BranchDAO branchDAO;
+    private final TransferCostDAO transferCostDAO;
     private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
+    private Map<String, Branch> branches;
+    private Map<String, List<BranchCostPair>> graph;
 
     @Autowired
-    public PaymentServiceImpl(SessionFactory sessionFactory) {
-        Session session = sessionFactory.openSession();
-        BranchDAO branchDAO = new BranchDAO(session);
-        TransferCostDAO transferCostDAO = new TransferCostDAO(session);
+    public PaymentServiceImpl(BranchDAO branchDAO, TransferCostDAO transferCostDAO) {
+        this.branchDAO = branchDAO;
+        this.transferCostDAO = transferCostDAO;
+        loadGraph();
+    }
 
+    private void loadGraph() {
         this.branches = branchDAO.getAllBranches();
         this.graph = transferCostDAO.getAllTransferCosts(branches);
-
-        session.close();
     }
 
     @Override

@@ -4,40 +4,52 @@ import com.bankingsolutions.payment.payment_routing.model.Branch;
 import com.bankingsolutions.payment.payment_routing.model.BranchCostPair;
 import com.bankingsolutions.payment.payment_routing.model.TransferCost;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Repository
 public class TransferCostDAO {
-    private final Session session;
 
-    public TransferCostDAO(Session session) {
-        this.session = session;
+    private final SessionFactory sessionFactory;
+
+    @Autowired
+    public TransferCostDAO(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
+    private Session getSession() {
+        return sessionFactory.getCurrentSession();
+    }
+
+    @SuppressWarnings("unchecked")
     public Map<String, List<BranchCostPair>> getAllTransferCosts(Map<String, Branch> branches) {
-        Map<String, List<BranchCostPair>> graph = new HashMap<>();
-        Transaction transaction = session.beginTransaction();
+        // Fetch all TransferCost entities from the database
+        List<TransferCost> transferCosts = getSession().createQuery("from TransferCost", TransferCost.class).getResultList();
 
-        try {
-            List<TransferCost> transferCosts = session.createQuery("from TransferCost", TransferCost.class).list();
-            for (TransferCost transferCost : transferCosts) {
-                String fromBranchId = transferCost.getFromBranch().getId();
-                String toBranchId = transferCost.getToBranch().getId();
-                int cost = transferCost.getCost();
+        // Create a map to store the transfer costs
+        Map<String, List<BranchCostPair>> transferCostMap = new HashMap<>();
 
-                BranchCostPair costPair = new BranchCostPair(branches.get(toBranchId), cost);
-                graph.computeIfAbsent(fromBranchId, k -> new ArrayList<>()).add(costPair);
-            }
-            transaction.commit();
-        } catch (Exception e) {
-            transaction.rollback();
-            e.printStackTrace();
+        // Iterate through the list of TransferCost entities
+        for (TransferCost transferCost : transferCosts) {
+            // Get source branch ID
+            String sourceBranchId = transferCost.getSourceBranch().getId();
+            
+            // Create BranchCostPair object
+            BranchCostPair costPair = new BranchCostPair(
+                transferCost.getDestinationBranch(), // Destination branch
+                transferCost.getCost() // Cost
+            );
+
+            // Add to the map
+            transferCostMap.computeIfAbsent(sourceBranchId, k -> new ArrayList<>()).add(costPair);
         }
 
-        return graph;
+        return transferCostMap;
     }
 }

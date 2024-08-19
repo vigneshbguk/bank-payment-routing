@@ -2,6 +2,7 @@ package com.bankingsolutions.payment.payment_routing.dao;
 
 import com.bankingsolutions.payment.payment_routing.model.Branch;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,6 +20,9 @@ import static org.mockito.Mockito.*;
 public class BranchDAOTest {
 
     @Mock
+    private SessionFactory sessionFactory;
+
+    @Mock
     private Session session;
 
     @Mock
@@ -28,10 +32,11 @@ public class BranchDAOTest {
 
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
+        when(sessionFactory.openSession()).thenReturn(session);
         when(session.beginTransaction()).thenReturn(transaction);
 
-        branchDAO = new BranchDAO(session);
+        branchDAO = new BranchDAO(sessionFactory);
     }
 
     @Test
