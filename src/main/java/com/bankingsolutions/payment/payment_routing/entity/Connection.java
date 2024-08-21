@@ -11,21 +11,21 @@ public class Connection {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer connectionId;
+    private int connectionId;
 
     @Column(nullable = false)
-    private Integer fromBranchId;
+    private int fromBranchId;
 
     @Column(nullable = false)
-    private Integer toBranchId;
+    private int toBranchId;
 
     @Column(nullable = false)
-    private Integer cost;
+    private int cost;
 
     
     public Connection() {}
 
-	public Connection(Integer connectionId, Integer fromBranchId, Integer toBranchId, Integer cost) {
+	public Connection(int connectionId, int fromBranchId, int toBranchId, int cost) {
 		super();
 		this.connectionId = connectionId;
 		this.fromBranchId = fromBranchId;
@@ -33,7 +33,7 @@ public class Connection {
 		this.cost = cost;
 	}
 
-	public Connection(Integer fromBranchId, Integer toBranchId, Integer cost) {
+	public Connection(int fromBranchId, int toBranchId, int cost) {
 		super();
 		this.fromBranchId = fromBranchId;
 		this.toBranchId = toBranchId;
@@ -41,35 +41,35 @@ public class Connection {
 	}
 
 	// Getters and setters
-    public Integer getConnectionId() {
+    public int getConnectionId() {
         return connectionId;
     }
 
-    public void setConnectionId(Integer connectionId) {
+    public void setConnectionId(int connectionId) {
         this.connectionId = connectionId;
     }
 
-    public Integer getFromBranchId() {
+    public int getFromBranchId() {
         return fromBranchId;
     }
 
-    public void setFromBranchId(Integer fromBranchId) {
+    public void setFromBranchId(int fromBranchId) {
         this.fromBranchId = fromBranchId;
     }
 
-    public Integer getToBranchId() {
+    public int getToBranchId() {
         return toBranchId;
     }
 
-    public void setToBranchId(Integer toBranchId) {
+    public void setToBranchId(int toBranchId) {
         this.toBranchId = toBranchId;
     }
 
-    public Integer getCost() {
+    public int getCost() {
         return cost;
     }
 
-    public void setCost(Integer cost) {
+    public void setCost(int cost) {
         this.cost = cost;
     }
 

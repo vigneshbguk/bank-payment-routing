@@ -1,9 +1,5 @@
 package com.bankingsolutions.payment.payment_routing.service;
 
-/**
- * PaymentService interface for processing payments between bank branches.
- * Implementations should be thread-safe.
- */
 public interface PaymentService {
 
     /**

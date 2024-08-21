@@ -1,17 +1,16 @@
 package com.bankingsolutions.payment.payment_routing.service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.StringJoiner;
 import org.springframework.stereotype.Component;
 import com.bankingsolutions.payment.payment_routing.entity.Node;
 import com.bankingsolutions.payment.payment_routing.entity.Edge;
-import com.bankingsolutions.payment.payment_routing.entity.PathWithCost;
 
 @Component
 public class WeightedDirectedGraph {
@@ -19,8 +18,8 @@ public class WeightedDirectedGraph {
     public String calculateLowestCostPathUsingDijkstra(String originBranch, String destinationBranch, Map<String, Integer> branchCosts, List<Node> allowedTransactions) {
         List<Edge> graph = createGraph(branchCosts, allowedTransactions);
         Map<String, List<Edge>> adjacencyList = buildAdjacencyList(graph);
-        PathWithCost result = dijkstra(adjacencyList, originBranch, destinationBranch);
-        return result.toString();
+        String result = dijkstra(adjacencyList, originBranch, destinationBranch);
+        return result;
     }
 
     public static List<Edge> createGraph(Map<String, Integer> branchCosts, List<Node> allowedTransactions) {
@@ -42,7 +41,7 @@ public class WeightedDirectedGraph {
         return adjacencyList;
     }
 
-    public static PathWithCost dijkstra(Map<String, List<Edge>> adjacencyList, String start, String end) {
+    public static String dijkstra(Map<String, List<Edge>> adjacencyList, String start, String end) {
         
     	PriorityQueue<NodeCost> queue = new PriorityQueue<>(Comparator.comparingInt(nc -> nc.cost));
         queue.add(new NodeCost(start, 0));
@@ -58,7 +57,14 @@ public class WeightedDirectedGraph {
 
             if (currentNode.equals(end)) {
                 List<String> path = reconstructPath(previousNode, start, end);
-                return new PathWithCost(path, current.cost);               //////////// remove toString()
+                
+                StringJoiner resultCSV = new StringJoiner(",");
+                
+                // Add each string from the list to the StringJoiner
+                for (String str : path) {
+                	resultCSV.add(str);
+                }
+                return resultCSV +" (Total Cost = "+current.cost+")";            
             }
 
             if (current.cost > minCost.get(currentNode)) {
@@ -77,9 +83,7 @@ public class WeightedDirectedGraph {
             }
         }
         
-        //System.out.println("--------------------------------\n\n" + adjacencyList + "\n\n"+"*********************");
-        
-        return new PathWithCost(Arrays.asList(), 999);
+        return "No Path Available";
     }
 
     private static List<String> reconstructPath(Map<String, String> previousNode, String start, String end) {

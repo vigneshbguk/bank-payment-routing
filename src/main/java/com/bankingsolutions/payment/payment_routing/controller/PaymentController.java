@@ -39,10 +39,4 @@ public class PaymentController {
     }
     
     
-    @GetMapping("/test")
-    public ResponseEntity<String> justChecking(){
-    	return ResponseEntity.ok("Welcome to my first Spring");
-    }
-    
-    
 }

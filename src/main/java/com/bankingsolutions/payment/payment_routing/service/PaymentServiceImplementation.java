@@ -5,20 +5,20 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.bankingsolutions.payment.payment_routing.dao.BranchDAO;
-import com.bankingsolutions.payment.payment_routing.dao.ConnectionDAO;
+import com.bankingsolutions.payment.payment_routing.repository.BranchDAO;
 import com.bankingsolutions.payment.payment_routing.entity.Connection;
 import com.bankingsolutions.payment.payment_routing.entity.Node;
+import com.bankingsolutions.payment.payment_routing.repository.ConnectionDAO;
 import com.bankingsolutions.payment.payment_routing.entity.Branch;
 
 @Service
-public class PaymentServiceImpl implements PaymentService {
+public class PaymentServiceImplementation implements PaymentService {
 
     private final BranchDAO branchDAO;
     private final ConnectionDAO connectionDAO;
     
     @Autowired
-    public PaymentServiceImpl(BranchDAO branchDAO, ConnectionDAO connectionDAO) {
+    public PaymentServiceImplementation(BranchDAO branchDAO, ConnectionDAO connectionDAO) {
         this.branchDAO = branchDAO;
         this.connectionDAO = connectionDAO;
     }
@@ -28,11 +28,7 @@ public class PaymentServiceImpl implements PaymentService {
         // Fetch all connections
         List<Connection> rawConnections = connectionDAO.findAllConnections();
         List<Branch> rawBranches = branchDAO.findAllBranches();
-
-//        System.out.println("rawConnections"+rawConnections);
-//        System.out.println("rawBranches"+rawBranches);
     
-        
         // Refine the extracted data and Implement Dijkstra's Algorithm
         return calculateLowestCostPath(originBranch, destinationBranch, rawBranches, rawConnections);
     }
@@ -50,12 +46,8 @@ public class PaymentServiceImpl implements PaymentService {
         
         
         WeightedDirectedGraph weightedDirectedGraph = new WeightedDirectedGraph();
-        
-        
-        
         String displayResult = weightedDirectedGraph.calculateLowestCostPathUsingDijkstra(originBranch, destinationBranch, branchWithCost, transactionAllowedBranches);
-        
-        
+
         return displayResult;
     }
     

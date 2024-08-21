@@ -1,5 +1,4 @@
-package com.bankingsolutions.payment.payment_routing.dao;
-
+package com.bankingsolutions.payment.payment_routing.repository;
 
 import org.springframework.stereotype.Repository;
 import com.bankingsolutions.payment.payment_routing.entity.Branch;
