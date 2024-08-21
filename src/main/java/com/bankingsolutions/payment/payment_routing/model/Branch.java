@@ -2,40 +2,69 @@ package com.bankingsolutions.payment.payment_routing.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "branch")
 public class Branch {
-    
-	
+
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-    @Column(name = "processing_cost")
-    private int processingCost;
-	    public Branch() {
-    }
+    @Column(nullable = false, unique = true)
+    private String branchName;
 
-    public Branch(String id, int processingCost) {
-        this.id = id;
-        this.processingCost = processingCost;
-    }
+    @Column(nullable = false)
+    private int transferCost;
 
-    public String getId() {
+    
+    
+
+	public Branch() {
+		super();
+	}
+
+	public Branch(String branchName, Integer transferCost) {
+		super();
+		this.branchName = branchName;
+		this.transferCost = transferCost;
+	}
+
+	public Branch(int id, String branchName, int transferCost) {
+		super();
+		this.id = id;
+		this.branchName = branchName;
+		this.transferCost = transferCost;
+	}
+
+	// Getters and setters
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public int getProcessingCost() {
-        return processingCost;
+    public String getBranchName() {
+        return branchName;
     }
 
-    public void setProcessingCost(int processingCost) {
-        this.processingCost = processingCost;
+    public void setBranchName(String branchName) {
+        this.branchName = branchName;
+    }
+
+    public Integer getTransferCost() {
+        return transferCost;
+    }
+
+    public void setTransferCost(Integer transferCost) {
+        this.transferCost = transferCost;
+    }
+    @Override
+    public String toString() {
+    	return "Branch [branchName=" + branchName + ", transferCost=" + transferCost + "]";
     }
 }
