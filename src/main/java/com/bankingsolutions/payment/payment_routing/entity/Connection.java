@@ -1,4 +1,4 @@
-package com.bankingsolutions.payment.payment_routing.model;
+package com.bankingsolutions.payment.payment_routing.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,11 +23,7 @@ public class Connection {
     private Integer cost;
 
     
-    
-    
-    public Connection() {
-		
-	}
+    public Connection() {}
 
 	public Connection(Integer connectionId, Integer fromBranchId, Integer toBranchId, Integer cost) {
 		super();

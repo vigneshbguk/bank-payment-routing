@@ -1,9 +1,9 @@
-package shortest_path_algorithm;
+package com.bankingsolutions.payment.payment_routing.entity;
 
 public class Node {
 
-	String source;
-	String destination;
+	private String source;
+	private String destination;
 
 	public Node(String source, String destination) {
 		super();

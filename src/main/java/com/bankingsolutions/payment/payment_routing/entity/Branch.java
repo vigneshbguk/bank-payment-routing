@@ -1,4 +1,4 @@
-package com.bankingsolutions.payment.payment_routing.model;
+package com.bankingsolutions.payment.payment_routing.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,8 +19,6 @@ public class Branch {
     @Column(nullable = false)
     private int transferCost;
 
-    
-    
 
 	public Branch() {
 		super();

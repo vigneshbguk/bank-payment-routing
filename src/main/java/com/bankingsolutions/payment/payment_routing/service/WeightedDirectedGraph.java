@@ -1,33 +1,30 @@
-package shortest_path_algorithm;
+package com.bankingsolutions.payment.payment_routing.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
+import org.springframework.stereotype.Component;
+import com.bankingsolutions.payment.payment_routing.entity.Node;
+import com.bankingsolutions.payment.payment_routing.entity.Edge;
+import com.bankingsolutions.payment.payment_routing.entity.PathWithCost;
 
+@Component
 public class WeightedDirectedGraph {
 
-	public String calculateLeastCostPath(Map<String, Integer> branchCosts, List<Node> allowedTransactions) {
-		
-		List<Edge> graph = createGraph(branchCosts, allowedTransactions);
-		Map<String, List<Edge>> adjacencyList = buildAdjacencyList(graph);
-		
-		String start = "A";
-		String end = "D";
-		PathWithCost result = dijkstra(adjacencyList, start, end);
-		
-		//System.out.println("Shortest path from " + start + " to " + end + ": " + result);
-		return result.toString();
-	}
-    
-	
-	public static List<Edge> createGraph(Map<String, Integer> branchCosts, List<Node> allowedTransactions) {
+    public String calculateLowestCostPathUsingDijkstra(String originBranch, String destinationBranch, Map<String, Integer> branchCosts, List<Node> allowedTransactions) {
+        List<Edge> graph = createGraph(branchCosts, allowedTransactions);
+        Map<String, List<Edge>> adjacencyList = buildAdjacencyList(graph);
+        PathWithCost result = dijkstra(adjacencyList, originBranch, destinationBranch);
+        return result.toString();
+    }
 
-    	
-    	List<Edge> graph = new ArrayList<>();
+    public static List<Edge> createGraph(Map<String, Integer> branchCosts, List<Node> allowedTransactions) {
+        List<Edge> graph = new ArrayList<>();
         for (Node entry : allowedTransactions) {
             String source = entry.getSource();
             String destination = entry.getDestination();
@@ -40,53 +37,49 @@ public class WeightedDirectedGraph {
     public static Map<String, List<Edge>> buildAdjacencyList(List<Edge> edges) {
         Map<String, List<Edge>> adjacencyList = new HashMap<>();
         for (Edge edge : edges) {
-            adjacencyList.computeIfAbsent(edge.source, k -> new ArrayList<>()).add(edge);
+            adjacencyList.computeIfAbsent(edge.getSource(), k -> new ArrayList<>()).add(edge);
         }
         return adjacencyList;
     }
 
     public static PathWithCost dijkstra(Map<String, List<Edge>> adjacencyList, String start, String end) {
-        // Priority queue to select the node with the smallest distance
-        PriorityQueue<NodeCost> queue = new PriorityQueue<>(Comparator.comparingInt(nc -> nc.cost));
+        
+    	PriorityQueue<NodeCost> queue = new PriorityQueue<>(Comparator.comparingInt(nc -> nc.cost));
         queue.add(new NodeCost(start, 0));
 
-        // Map to store the minimum cost to reach each node
         Map<String, Integer> minCost = new HashMap<>();
         minCost.put(start, 0);
 
-        // Map to track the path
         Map<String, String> previousNode = new HashMap<>();
 
         while (!queue.isEmpty()) {
             NodeCost current = queue.poll();
             String currentNode = current.node;
 
-            // If the destination is reached, reconstruct the path
             if (currentNode.equals(end)) {
                 List<String> path = reconstructPath(previousNode, start, end);
-                return new PathWithCost(path, current.cost);
+                return new PathWithCost(path, current.cost);               //////////// remove toString()
             }
 
-            // Skip processing if we've found a cheaper path already
             if (current.cost > minCost.get(currentNode)) {
                 continue;
             }
 
-            // Explore neighbors
             if (adjacencyList.containsKey(currentNode)) {
                 for (Edge edge : adjacencyList.get(currentNode)) {
-                    int newCost = current.cost + edge.weight;
-                    if (newCost < minCost.getOrDefault(edge.destination, Integer.MAX_VALUE)) {
-                        minCost.put(edge.destination, newCost);
-                        previousNode.put(edge.destination, currentNode);
-                        queue.add(new NodeCost(edge.destination, newCost));
+                    int newCost = current.cost + edge.getWeight();
+                    if (newCost < minCost.getOrDefault(edge.getDestination(), Integer.MAX_VALUE)) {
+                        minCost.put(edge.getDestination(), newCost);
+                        previousNode.put(edge.getDestination(), currentNode);
+                        queue.add(new NodeCost(edge.getDestination(), newCost));
                     }
                 }
             }
         }
-
-        // If no path is found
-        return new PathWithCost(Collections.emptyList(), -1);
+        
+        //System.out.println("--------------------------------\n\n" + adjacencyList + "\n\n"+"*********************");
+        
+        return new PathWithCost(Arrays.asList(), 999);
     }
 
     private static List<String> reconstructPath(Map<String, String> previousNode, String start, String end) {
@@ -97,7 +90,6 @@ public class WeightedDirectedGraph {
         Collections.reverse(path);
         return path;
     }
-    
 }
 
 class NodeCost {
