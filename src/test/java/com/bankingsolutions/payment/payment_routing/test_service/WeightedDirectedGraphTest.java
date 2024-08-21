@@ -107,4 +107,29 @@ public class WeightedDirectedGraphTest {
         // Assert: Verify the results when no path is available
         assertEquals("No Path Available", result);
     }
+    
+    @Test
+    public void testValidateOriginAndDestinationranchInvalid() {
+    	Map<String, Integer> branchCosts = new HashMap<>();
+        branchCosts.put("A", 10);
+        branchCosts.put("B", 20);
+        branchCosts.put("C", 30);
+        
+        boolean result = WeightedDirectedGraph.validateOriginAndDestinationranch("A1", branchCosts);
+        
+        assertEquals(false, result);
+    }
+    
+
+    @Test
+    public void testValidateOriginAndDestinationranchValid() {
+    	Map<String, Integer> branchCosts = new HashMap<>();
+        branchCosts.put("A", 10);
+        branchCosts.put("B", 20);
+        branchCosts.put("C", 30);
+        
+        boolean result = WeightedDirectedGraph.validateOriginAndDestinationranch("B", branchCosts);
+        
+        assertEquals(true, result);
+    }
 }

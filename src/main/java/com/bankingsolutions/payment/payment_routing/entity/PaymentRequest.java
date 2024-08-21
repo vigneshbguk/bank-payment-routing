@@ -4,7 +4,13 @@ public class PaymentRequest {
     private String sourceBranch;
     private String destinationBranch;
 
-    // Getters and setters
+	public PaymentRequest(String sourceBranch, String destinationBranch) {
+		super();
+		this.sourceBranch = sourceBranch;
+		this.destinationBranch = destinationBranch;
+	}
+
+	// Getters and setters
     public String getSourceBranch() {
         return sourceBranch;
     }

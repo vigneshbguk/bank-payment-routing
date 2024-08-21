@@ -24,7 +24,7 @@ public class PaymentController {
         // Input validation (e.g., check if branch names are not empty)
     	if (paymentRequest.getSourceBranch() == null || paymentRequest.getSourceBranch().trim().isEmpty() ||
                 paymentRequest.getDestinationBranch() == null || paymentRequest.getDestinationBranch().trim().isEmpty()) {
-                return ResponseEntity.badRequest().body("Source and destination branches must be provided.");
+                return ResponseEntity.badRequest().body("Source and destination branches must be valid.");
             }
 
         

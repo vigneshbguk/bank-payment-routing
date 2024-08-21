@@ -15,15 +15,37 @@ import com.bankingsolutions.payment.payment_routing.entity.Edge;
 @Component
 public class WeightedDirectedGraph {
 
+	
+	public static boolean validateOriginAndDestinationranch(String branch, Map<String, Integer> branchCosts) {
+		
+		if(branchCosts.get(branch) != null) {
+			return true;
+		}
+		else {
+			return false;
+		}	
+	}
+	
     public String calculateLowestCostPathUsingDijkstra(String originBranch, String destinationBranch, Map<String, Integer> branchCosts, List<Node> allowedTransactions) {
-        List<Edge> graph = createGraph(branchCosts, allowedTransactions);
+        
+    	if(!validateOriginAndDestinationranch(originBranch, branchCosts)) {
+    		return "Source branch not found";
+    	}
+    	
+    	if(!validateOriginAndDestinationranch(destinationBranch, branchCosts)) {
+    		return "Destination branch not found";
+    	}
+    	
+    	List<Edge> graph = createGraph(branchCosts, allowedTransactions);
         Map<String, List<Edge>> adjacencyList = buildAdjacencyList(graph);
         String result = dijkstra(adjacencyList, originBranch, destinationBranch);
         return result;
     }
-
+    
     public static List<Edge> createGraph(Map<String, Integer> branchCosts, List<Node> allowedTransactions) {
-        List<Edge> graph = new ArrayList<>();
+        
+    	
+    	List<Edge> graph = new ArrayList<>();
         for (Node entry : allowedTransactions) {
             String source = entry.getSource();
             String destination = entry.getDestination();
