@@ -118,4 +118,6 @@ available
  10 **Your completed solution should be uploaded to a publically available repository on GitHub. Once the interview process is complete, the repository should be deleted.** (followed)
 
 
-
+**Future Improvement:**
+* The use of Git commits and branch/version management could be more frequent and standardized.
+* Documentation for code and design could be more detailed (Couldn't do it due to time constraint) 
