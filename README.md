@@ -41,17 +41,21 @@ INSERT INTO Branch (branch_name, transfer_cost) VALUES
 ('D', 10),
 ('E', 20),
 ('F', 5);
+('G', 10);
+
+
 
 INSERT INTO Connection (connection_id, cost, from_branch_id, to_branch_id) VALUES
-(101, 0, 1, 2), 
-(102, 0, 1, 3), 
-(103, 0, 3, 2), 
-(104, 0, 2, 4), 
-(105, 0, 3, 5), 
-(106, 0, 4, 5), 
-(107, 0, 5, 4),
-(108, 0, 4, 6),
-(109, 0, 5, 6); 
+(101, 0, 1, 2),  -- A to B
+(102, 0, 1, 3),  -- A to C
+(103, 0, 3, 2),  -- C to B
+(104, 0, 2, 4),  -- B to D
+(105, 0, 3, 5),  -- C to E
+(106, 0, 4, 5),  -- D to E
+(107, 0, 5, 4),  -- E to D
+(108, 0, 4, 6),  -- D to F
+(109, 0, 5, 6);  -- E to F
+(110, 0, 6, 7);  -- F to G
    
 3. Build the Project
 4. Run the Application
