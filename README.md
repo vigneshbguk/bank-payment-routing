@@ -11,7 +11,6 @@ Packages:
 **To run the application, follow the below procedure**
 Requirements
 * Java 17
-* Maven 3.8.1
 
 1. Clone the Repository
 2. Create the PostgreSQL DB
@@ -35,37 +34,37 @@ CREATE TABLE Connection (
 );
 
 INSERT INTO Branch (branch_name, transfer_cost) VALUES
-('A', 5),
-('B', 50),
-('C', 10),
-('D', 10),
-('E', 20),
-('F', 5);
-('G', 10);
+('A', 5),<br/>
+('B', 50),<br/>
+('C', 10),<br/>
+('D', 10),<br/>
+('E', 20),<br/>
+('F', 5);<br/>
+('G', 10);<br/>
 
 
 
 INSERT INTO Connection (connection_id, cost, from_branch_id, to_branch_id) VALUES
-(101, 0, 1, 2),  -- A to B
-(102, 0, 1, 3),  -- A to C
-(103, 0, 3, 2),  -- C to B
-(104, 0, 2, 4),  -- B to D
-(105, 0, 3, 5),  -- C to E
-(106, 0, 4, 5),  -- D to E
-(107, 0, 5, 4),  -- E to D
-(108, 0, 4, 6),  -- D to F
-(109, 0, 5, 6);  -- E to F
-(110, 0, 6, 7);  -- F to G
+(101, 0, 1, 2),  -- A to B<br/>
+(102, 0, 1, 3),  -- A to C<br/>
+(103, 0, 3, 2),  -- C to B<br/>
+(104, 0, 2, 4),  -- B to D<br/>
+(105, 0, 3, 5),  -- C to E<br/>
+(106, 0, 4, 5),  -- D to E<br/>
+(107, 0, 5, 4),  -- E to D<br/>
+(108, 0, 4, 6),  -- D to F<br/>
+(109, 0, 5, 6);  -- E to F<br/>
+(110, 0, 6, 7);  -- F to G<br/>
    
 3. Build the Project
 4. Run the Application
 5. REST API Usage
 The application exposes a GET REST API for finding the lowest cost path. The endpoint is:
-http://localhost:8081/payments/route
-request body sample{
-  "originBranch": "BranchName",
-  "destinationBranch": "BranchName"
-}
+http://localhost:8081/payments/route<br/>
+request body sample{<br/>
+  "originBranch": "BranchName",<br/>
+  "destinationBranch": "BranchName"<br/>
+}<br/>
 
 7. Testing
 To run the tests for the project, use the following Maven command: mvn test
