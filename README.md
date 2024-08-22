@@ -56,8 +56,8 @@ INSERT INTO Connection (connection_id, cost, from_branch_id, to_branch_id) VALUE
 (109, 0, 5, 6);  -- E to F<br/>
 (110, 0, 6, 7);  -- F to G<br/>
    
-3. Build the Project
-4. Run the Application
+3. Build the Project using maven
+4. Run the jar file
 5. REST API Usage
 The application exposes a GET REST API for finding the lowest cost path. The endpoint is:
 http://localhost:8081/payments/route<br/>
